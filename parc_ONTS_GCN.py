@@ -218,3 +218,6 @@ for _ in range(10):
 
     # Avaliação do modelo
     evaluate_gnn_model(env, policy_net, episodes=10)
+
+print()
+print(sum / 10)
