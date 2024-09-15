@@ -61,7 +61,9 @@ class ONTSEnv:
     def calculate_reward(self):
         # Calcula o consumo total de energia em cada etapa de tempo
         for t in range(self.T):
-            totalEnergyAtTimeStep_t = sum(self.state[j][t] * self.energy_consumption[j][t] for j in range(self.J))
+            totalEnergyAtTimeStep_t = 0
+            for j in range(self.J):
+                totalEnergyAtTimeStep_t += self.state[j][t] * self.energy_consumption[j][t]
             
             # Penaliza se o consumo de energia exceder o limite
             if totalEnergyAtTimeStep_t > self.max_energy:
