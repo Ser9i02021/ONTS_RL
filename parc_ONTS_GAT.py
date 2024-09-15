@@ -203,11 +203,17 @@ energy_consumption = np.array([
 ])
 max_energy = 5
 
-env = ONTSEnv(job_priorities, energy_consumption, max_energy)
-env.reset()
+sum = 0
+for _ in range(10):
+    env = ONTSEnv(job_priorities, energy_consumption, max_energy)
+    env.reset()
 
-# Treinamento inicial
-policy_net, memory = train_gnn(env, episodes=2000)
+    # Treinamento inicial
+    policy_net, memory = train_gnn(env, episodes=2000)
 
-# Avaliação do modelo treinado
-evaluate_gnn_model(env, policy_net, episodes=10)
+    # Avaliação do modelo treinado
+    avg_rew = evaluate_gnn_model(env, policy_net, episodes=10)
+    sum += avg_rew
+
+print()
+print(sum / 10)
