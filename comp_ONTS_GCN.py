@@ -292,6 +292,7 @@ def evaluate_gnn_model(env, policy_net, episodes=1):
         print()
     average_reward = total_rewards / episodes
     print(f"Average Reward over {episodes} episodes: {average_reward}")  # Imprime a recompensa média
+    return average_reward
 
 # Cria uma instância do problema ONTS com parâmetros predefinidos
 
@@ -317,14 +318,14 @@ env = ONTSEnv(u__job_priorities, q__energy_consumption_per_job, y_min_per_job, y
               w_max_per_job, r__energy_available_at_time_t, gamma, Vb, Q, p, e)
 env.reset()
 
-# Treinamento inicial da política GNN
-policy_net, memory = train_gnn(env, episodes=1000)
+sum = 0
+for _ in range(10):
+    # Treinamento inicial da política GNN
+    policy_net, memory = train_gnn(env, episodes=2000)
 
-# Armazena a política GNN e a memória em um arquivo binário
-with open('policy.txt', 'wb') as file:
-    pickle.dump(policy_net, file)
-with open('mem.txt', 'wb') as file:
-    pickle.dump(memory, file)
+    # Avalia a política treinada no problema ONTS
+    avg_rew = evaluate_gnn_model(env, policy_net, episodes=10)
+    sum += avg_rew
 
-# Avalia a política treinada no problema ONTS
-evaluate_gnn_model(env, policy_net, episodes=10)
+print()
+print(sum / 10)
