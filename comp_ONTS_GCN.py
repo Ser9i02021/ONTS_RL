@@ -175,7 +175,7 @@ class ONTSEnv:
 
             for t in range(self.T - self.p_max_per_job[j] + 1):
                 sum_l = 0
-                for l em range(t, t + self.p_max_per_job[j]):
+                for l in range(t, t + self.p_max_per_job[j]):
                     sum_l += self.phi__state[j, l]
                 if sum_l < 1:
                     acc_reward -= 1  # Penaliza por exceder a execução periódica máxima
